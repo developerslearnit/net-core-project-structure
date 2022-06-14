@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0" />
+	  <PackageReference Include="Dapper" Version="2.0.123" />
+	  <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
+	  <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.13" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\ShephardTech.Financials.Entities\ShephardTech.Financials.Entities.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\ShephardTech.Financials.Persistence\ShephardTech.Financials.Persistence.csproj" />
+    <ProjectReference Include="..\ShephardTech.Financials.Application\ShephardTech.Financials.Application.csproj" />
+  </ItemGroup>
+
+</Project>
