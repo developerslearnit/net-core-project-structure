@@ -119,6 +119,9 @@ namespace ShephardTech.Financials.API.Controllers
         {
 
             var user = await _service.AuthService.FindUserByName(username);
+            if (user == null)
+                user = await _service.AuthService.FindUserByEmail(username);
+
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(AppConstants.Settings.JWT_SECRET_KEY);
@@ -142,6 +145,7 @@ namespace ShephardTech.Financials.API.Controllers
                 Expires = DateTime.UtcNow.AddHours(_jWTSettings.tokenExipration),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
                 SecurityAlgorithms.HmacSha256Signature),
+                //Expires = DateTime.UtcNow.AddMinutes(2),
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);

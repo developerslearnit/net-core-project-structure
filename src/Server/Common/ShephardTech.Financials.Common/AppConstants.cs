@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ShephardTech.Financials.Common
+﻿namespace ShephardTech.Financials.Common
 {
     public static class AppConstants
     {

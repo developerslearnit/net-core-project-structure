@@ -1,9 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using ShephardTech.Web.Filters;
 using ShephardTech.Web.Models;
 using System.Diagnostics;
 
 namespace ShephardTech.Web.Controllers
 {
+    [CustomAuthorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -15,6 +19,11 @@ namespace ShephardTech.Web.Controllers
 
         public IActionResult Index()
         {
+            var user = HttpContext.Items["User"];
+
+            var userIden = HttpContext.User;
+            
+
             return View();
         }
 

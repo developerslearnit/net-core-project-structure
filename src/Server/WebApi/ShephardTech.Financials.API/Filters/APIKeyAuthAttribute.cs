@@ -14,6 +14,7 @@ namespace ShephardTech.Financials.API.Filters
 
             var HeaderKey = AppConstants.Settings.APIKEY_KEY_VALUE;
 
+            
 
             if (!context.HttpContext.Request.Headers.TryGetValue(AppConstants.Settings.APIKEY_KEY_NAME, out var potentialApiKey))
             {

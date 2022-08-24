@@ -53,7 +53,7 @@
 								<label class="form-label fs-6 fw-bolder text-dark">Email</label>
 								<!--end::Label-->
 								<!--begin::Input-->
-								<input class="form-control form-control-lg form-control-solid" type="text" name="email" autocomplete="off" />
+								<input class="form-control form-control-lg form-control-solid" type="text" id="email" autocomplete="off" />
 								<!--end::Input-->
 							</div>
 							<!--end::Input group-->
@@ -70,15 +70,15 @@
 								</div>
 								<!--end::Wrapper-->
 								<!--begin::Input-->
-								<input class="form-control form-control-lg form-control-solid" type="password" name="password" autocomplete="off" />
+								<input class="form-control form-control-lg form-control-solid" type="password" id="password" autocomplete="off" />
 								<!--end::Input-->
 							</div>
 							<!--end::Input group-->
 							<!--begin::Actions-->
 							<div class="text-center">
 								<!--begin::Submit button-->
-								<button type="submit" id="kt_sign_in_submit" class="btn btn-lg btn-primary w-100 mb-5">
-									<span class="indicator-label">Continue</span>
+								<button type="submit" id="sign_in_submit" class="btn btn-lg btn-primary w-100 mb-5">
+									<span class="indicator-label">Login</span>
 									<span class="indicator-progress">Please wait...
 									<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
 								</button>
@@ -98,13 +98,80 @@
 		<!--end::Root-->
 		<!--end::Main-->
 		<!--begin::Javascript-->
-		<script>var hostUrl = "assets/";</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 		<!--begin::Global Javascript Bundle(used by all pages)-->
-		<script src="assets/plugins/global/plugins.bundle.js"></script>
-		<script src="assets/js/scripts.bundle.js"></script>
+		<script src="~/assets/plugins/global/plugins.bundle.js"></script>
+		@*<script src="~/assets/js/scripts.bundle.js"></script>*@
 		<!--end::Global Javascript Bundle-->
 		<!--begin::Page Custom Javascript(used by this page)-->
-		<script src="assets/js/custom/authentication/sign-in/general.js"></script>
+		<script src="~/assets/js/custom/authentication/sign-in/general.js"></script>
+
+		<script>
+            $(function(){
+
+
+			const url = "@Url.Action("DoLogin", "Authentication", new { area = "auth" })";
+			const homeUrl = "@Url.Action("Index", "Home",new{area=""})";
+
+			console.log(homeUrl);
+				
+                
+                function signIn(data) {
+                    return $.ajax({
+                        type: "POST",
+						url: "@Url.Action("DoLogin", "Authentication", new { area = "auth" })",
+						data: data,
+						dataType: 'json',
+						contentType: 'application/json;charset=utf-8'
+                    });
+                }
+
+				function InitLoader(){
+					$("#sign_in_submit").attr('disabled',true);
+					$(".indicator-label").hide();
+					$(".indicator-progress").show();
+					$(".spinner-border").show();
+				}
+
+			function TerminateLoader() {
+				$("#sign_in_submit").attr('disabled', false);
+				$(".indicator-label").show();
+				$(".indicator-progress").hide();
+				$(".spinner-border").hide();
+			}
+
+                $("#sign_in_submit").click(function(e){
+                    e.preventDefault();
+
+				InitLoader();
+
+                    var data =JSON.stringify({
+                        userName: $("#email").val(),
+                        password: $("#password").val()
+                    });
+
+				$.when(signIn(data)).then(function(res){
+					TerminateLoader();
+                   if(res.hasError==false){
+                       
+                        window.location.href = homeUrl;
+                       
+				   }else{
+                        alert(res.message);
+				   }
+					
+
+				}).fail(function(e){
+					console.log(e);
+					TerminateLoader();
+				});
+
+
+
+				});
+                
+			});
+		</script>
 		<!--end::Page Custom Javascript-->
 </body>
 </html>
